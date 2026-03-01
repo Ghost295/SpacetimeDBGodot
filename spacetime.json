@@ -1,0 +1,11 @@
+{
+  "dev": {
+    "run": "dotnet run"
+  },
+  "module-path": "./Server",
+  "database": "big-battles",
+  "server": "maincloud",
+  "generate": [
+    { "language": "csharp", "out-dir": "./Client/Module-Bindings" }
+  ]
+}
