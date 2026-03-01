@@ -3,9 +3,9 @@ using SpacetimeDB;
 public static partial class Module
 {
     [SpacetimeDB.Reducer]
-    public static void Add(ReducerContext ctx)
+    public static void Add(ReducerContext ctx, int x, int y)
     {
-        ctx.Db.Entity.Insert(new Entity() {});
+        ctx.Db.Entity.Insert(new Entity() { position = new DBVector2(x, y) });
     }
 
     [SpacetimeDB.Reducer]

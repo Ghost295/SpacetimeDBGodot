@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://1kfyh1wuo0p8"]
+
+[ext_resource type="PackedScene" uid="uid://c6pism2kgjr5c" path="res://Framework/Scenes/PopupMenu/PopupMenu.tscn" id="1_hqwdr"]
+[ext_resource type="Script" uid="uid://dwm0arf7cvjhv" path="res://Game/GameMain.cs" id="1_vrr3t"]
+[ext_resource type="Resource" uid="uid://cyitverwxjtn" path="res://Game/Units/Spearman.res" id="2_iv3md"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrr3t"]
+
+[sub_resource type="Sky" id="Sky_osv3r"]
+sky_material = SubResource("ProceduralSkyMaterial_vrr3t")
+
+[sub_resource type="Environment" id="Environment_iv3md"]
+background_mode = 2
+sky = SubResource("Sky_osv3r")
+ambient_light_source = 3
+ambient_light_color = Color(0.54901963, 0.54901963, 0.54901963, 1)
+ambient_light_sky_contribution = 0.3
+tonemap_mode = 3
+
+[node name="Game" type="Node3D" unique_id=1973761242]
+script = ExtResource("1_vrr3t")
+Model = ExtResource("2_iv3md")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1922467895]
+
+[node name="PopupMenu" parent="CanvasLayer" unique_id=832860443 instance=ExtResource("1_hqwdr")]
+visible = false
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1924850015]
+transform = Transform3D(1, 0, 0, 0, 0.7660445, 0.64278764, 0, -0.64278764, 0.7660445, 0, 34.962555, 60.59893)
+
+[node name="Environment" type="Node3D" parent="." unique_id=1553625612]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=1266383121]
+environment = SubResource("Environment_iv3md")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment" unique_id=1922737100]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+shadow_blur = 2.0
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 256.0
+
+[node name="Floor" type="CSGBox3D" parent="." unique_id=17616568]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+size = Vector3(100, 1, 100)

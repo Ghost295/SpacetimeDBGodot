@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using SpacetimeDB;
+using SpacetimeDB.Game.VAT;
 using SpacetimeDB.Types;
 
 namespace SpacetimeDB.Game;
@@ -19,7 +20,9 @@ public class SpacetimeSync
     public Identity LocalIdentity { get; private set; }
     public DbConnection Conn { get; private set; }
 
-    public List<Entity> Entities = new();
+    public Dictionary<int, VATInstanceHandle> Entities = new();
+    
+    public VATModel Model { get; set; }
 
     private HashSet<int> _pendingConsumeAnimations = new();
 
@@ -119,32 +122,32 @@ public class SpacetimeSync
     private void EntityOnInsert(EventContext context, Entity insertedValue)
     {
         GD.Print($"Entity inserted: {insertedValue.EntityId}");
-        Entities.Add(insertedValue);
+        
+        var handle = GameCore.VATModelManager.SpawnInstance(Model, new Transform3D(Basis.Identity, new Vector3(insertedValue.Position.X, 2, insertedValue.Position.Y)));
+        
+        Entities[insertedValue.EntityId] = handle;
     }
 
     private void EntityOnUpdate(EventContext context, Entity oldEntity, Entity newEntity)
     {
         GD.Print($"Entity updated: {newEntity.EntityId}");
-        // if (!Entities.TryGetValue(newEntity.EntityId, out var entityController))
-        // {
-        //     return;
-        // }
-        // entityController.OnEntityUpdated(newEntity);
+        if (!Entities.TryGetValue(newEntity.EntityId, out var entityController))
+        {
+            return;
+        }
+
+        var handle = Entities[newEntity.EntityId];
+        
+        GameCore.VATModelManager.SetInstanceTransform(handle, new Transform3D(Basis.Identity, new Vector3(newEntity.Position.X, 1, newEntity.Position.Y)));
     }
 
     private void EntityOnDelete(EventContext context, Entity oldEntity)
     {
         GD.Print($"Entity deleted: {oldEntity.EntityId}");
-        Entities.Remove(oldEntity);
-        // if (Entities.Remove(oldEntity.EntityId, out var entityController))
-        // {
-        //     if (_pendingConsumeAnimations.Remove(oldEntity.EntityId))
-        //     {
-        //         // Already being animated by ConsumeEntityEventOnInsert — don't destroy yet
-        //         return;
-        //     }
-        //     entityController.OnDelete(context);
-        // }
+        if (Entities.Remove(oldEntity.EntityId, out var handle))
+        {
+            GameCore.VATModelManager.DestroyInstance(handle);
+        }
     }
     
 

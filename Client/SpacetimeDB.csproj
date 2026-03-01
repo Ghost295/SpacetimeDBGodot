@@ -55,6 +55,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Include="Game\Game.tscn" />
       <Content Include="Game\Units\Spearman.res" />
       <Content Include="Game\Units\VAT\InfantryVAT.res" />
       <Content Include="Game\VAT\shaders\vat_direct.gdshader" />

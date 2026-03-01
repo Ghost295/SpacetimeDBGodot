@@ -140,7 +140,7 @@ public partial class VATModelManager : Node3D
     }
 
     // TODO: This should use the var_direct_far_minimal.gdshader for far units to maximize performance
-    private void Initialize()
+    public void Initialize()
     {
         if (_initialized)
             return;
