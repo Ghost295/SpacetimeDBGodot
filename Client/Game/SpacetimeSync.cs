@@ -74,9 +74,9 @@ public class SpacetimeSync
         
         GD.Print("Said hello");
         
-        conn.Db.Entity.OnInsert += EntityOnInsert;
-        conn.Db.Entity.OnUpdate += EntityOnUpdate;
-        conn.Db.Entity.OnDelete += EntityOnDelete;
+        conn.Db.Boid.OnInsert += BoidOnInsert;
+        conn.Db.Boid.OnUpdate += BoidOnUpdate;
+        conn.Db.Boid.OnDelete += BoidOnDelete;
         
         GD.Print("Registered event handlers");
 
@@ -119,32 +119,32 @@ public class SpacetimeSync
         // var worldSize = Conn.Db.Config.Id.Find(0).WorldSize;
     }
 
-    private void EntityOnInsert(EventContext context, Entity insertedValue)
+    private void BoidOnInsert(EventContext context, Boid insertedValue)
     {
-        GD.Print($"Entity inserted: {insertedValue.EntityId}");
+        // GD.Print($"Entity inserted: {insertedValue.BoidId}");
         
         var handle = GameCore.VATModelManager.SpawnInstance(Model, new Transform3D(Basis.Identity, new Vector3(insertedValue.Position.X, 2, insertedValue.Position.Y)));
         
-        Entities[insertedValue.EntityId] = handle;
+        Entities[insertedValue.BoidId] = handle;
     }
 
-    private void EntityOnUpdate(EventContext context, Entity oldEntity, Entity newEntity)
+    private void BoidOnUpdate(EventContext context, Boid oldEntity, Boid newEntity)
     {
-        GD.Print($"Entity updated: {newEntity.EntityId}");
-        if (!Entities.TryGetValue(newEntity.EntityId, out var entityController))
+        // GD.Print($"Entity updated: {newEntity.BoidId}");
+        if (!Entities.TryGetValue(newEntity.BoidId, out var entityController))
         {
             return;
         }
 
-        var handle = Entities[newEntity.EntityId];
+        var handle = Entities[newEntity.BoidId];
         
         GameCore.VATModelManager.SetInstanceTransform(handle, new Transform3D(Basis.Identity, new Vector3(newEntity.Position.X, 1, newEntity.Position.Y)));
     }
 
-    private void EntityOnDelete(EventContext context, Entity oldEntity)
+    private void BoidOnDelete(EventContext context, Boid oldEntity)
     {
-        GD.Print($"Entity deleted: {oldEntity.EntityId}");
-        if (Entities.Remove(oldEntity.EntityId, out var handle))
+        // GD.Print($"Entity deleted: {oldEntity.BoidId}");
+        if (Entities.Remove(oldEntity.BoidId, out var handle))
         {
             GameCore.VATModelManager.DestroyInstance(handle);
         }

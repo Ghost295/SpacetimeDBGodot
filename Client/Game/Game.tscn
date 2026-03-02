@@ -3,6 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://c6pism2kgjr5c" path="res://Framework/Scenes/PopupMenu/PopupMenu.tscn" id="1_hqwdr"]
 [ext_resource type="Script" uid="uid://dwm0arf7cvjhv" path="res://Game/GameMain.cs" id="1_vrr3t"]
 [ext_resource type="Resource" uid="uid://cyitverwxjtn" path="res://Game/Units/Spearman.res" id="2_iv3md"]
+[ext_resource type="Terrain3DMaterial" uid="uid://bjsp6h4jb67qg" path="res://Game/Terrain/test2lanetiny/terrain_material.tres" id="4_jxerj"]
+[ext_resource type="Terrain3DAssets" uid="uid://dal3jhw6241qg" path="res://demo/data/assets.tres" id="5_jxerj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrr3t"]
 
@@ -44,3 +46,11 @@ directional_shadow_max_distance = 256.0
 [node name="Floor" type="CSGBox3D" parent="." unique_id=17616568]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 size = Vector3(100, 1, 100)
+
+[node name="Terrain3D" type="Terrain3D" parent="." unique_id=480607391]
+data_directory = "res://demo/data"
+material = ExtResource("4_jxerj")
+assets = ExtResource("5_jxerj")
+displacement_sharpness = 0.5
+top_level = true
+metadata/_edit_lock_ = true

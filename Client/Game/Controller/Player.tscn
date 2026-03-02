@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://bp7fm0wf1nhs6"]
+
+[ext_resource type="Script" uid="uid://cb2xg72254xku" path="res://Game/FlowTest/TestController/Player.gd" id="1_gvy3m"]
+[ext_resource type="Script" uid="uid://xrun6jxh35yt" path="res://Game/FlowTest/TestController/CameraManager.gd" id="2_wyu65"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_uoc7q"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f0ee0"]
+height = 1.5
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_efmrn"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0a43s"]
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_gvy3m")
+
+[node name="CameraManager" type="Node3D" parent="."]
+script = ExtResource("2_wyu65")
+
+[node name="Arm" type="SpringArm3D" parent="CameraManager"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.90630776, 0.42261827, 0, -0.42261827, 0.90630776, 0, 2.325, -0.032)
+shape = SubResource("SphereShape3D_uoc7q")
+spring_length = 6.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="CameraManager/Arm"]
+unique_name_in_owner = true
+current = true
+near = 0.25
+far = 16384.0
+
+[node name="CollisionShapeBody" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+shape = SubResource("CapsuleShape3D_f0ee0")
+
+[node name="CollisionShapeRay" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1, 0)
+shape = SubResource("SeparationRayShape3D_efmrn")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_0a43s")

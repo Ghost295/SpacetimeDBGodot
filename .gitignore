@@ -49,3 +49,7 @@ Module-Bindings/
 Server/bin/
 Server/obj/
 Client/Types/
+
+ReferenceProject/
+
+Client/addons/flowfield_baker/export/

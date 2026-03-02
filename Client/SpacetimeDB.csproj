@@ -62,6 +62,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Game\FlowField\" />
       <Folder Include="Game\Units\Models\" />
     </ItemGroup>
 </Project>

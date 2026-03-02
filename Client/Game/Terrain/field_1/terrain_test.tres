@@ -1,0 +1,6 @@
+[gd_resource type="Terrain3DMaterial" format=3 uid="uid://dmp703trknlii"]
+
+[resource]
+world_background = 0
+auto_shader = true
+dual_scaling = true

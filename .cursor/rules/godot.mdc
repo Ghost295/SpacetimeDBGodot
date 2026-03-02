@@ -1,0 +1,12 @@
+---
+alwaysApply: true
+---
+
+- This project uses Godot 4.6.1 using the .NET runtime.
+- Use context7 to look up any documentation
+- This project was boostrapped using the GodotTools Template so please use all improvements that it provides.
+- Logging must be done with GD.Print
+- Use functions in the GD namespace when applicable
+- Don't be afraid to remove code to simplify flow while keeping determism and multiplayer readiness
+- Never create fallback code
+- This project uses SpacetimeDB

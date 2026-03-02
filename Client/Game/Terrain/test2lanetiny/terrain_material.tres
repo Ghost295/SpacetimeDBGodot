@@ -1,0 +1,28 @@
+[gd_resource type="Terrain3DMaterial" format=3 uid="uid://bjsp6h4jb67qg"]
+
+[resource]
+_shader_parameters = {
+&"auto_base_texture": 0,
+&"auto_height_reduction": 0.1,
+&"auto_overlay_texture": 1,
+&"auto_slope": 1.0,
+&"bias_distance": 512.0,
+&"blend_sharpness": 0.5,
+&"depth_blur": 0.0,
+&"dual_scale_far": 170.0,
+&"dual_scale_near": 100.0,
+&"dual_scale_reduction": 0.3,
+&"dual_scale_texture": 0,
+&"flat_terrain_normals": false,
+&"mipmap_bias": 1.0,
+&"shader_uniforms": null,
+&"shader_uniforms::auto_shader": null,
+&"shader_uniforms::dual_scaling": null,
+&"shader_uniforms::general": null,
+&"shader_uniforms::mipmaps": null,
+&"tri_scale_reduction": 0.3
+}
+world_background = 0
+auto_shader_enabled = true
+dual_scaling_enabled = true
+projection_enabled = true

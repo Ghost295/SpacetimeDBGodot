@@ -1,0 +1,1081 @@
+[gd_scene format=3 uid="uid://b66201u1cl1jw"]
+
+[ext_resource type="Script" uid="uid://dwm0arf7cvjhv" path="res://Game/GameMain.cs" id="1_uiuc5"]
+[ext_resource type="Resource" uid="uid://cyitverwxjtn" path="res://Game/Units/Spearman.res" id="2_4dbjc"]
+[ext_resource type="PackedScene" uid="uid://bp7fm0wf1nhs6" path="res://Game/Controller/Player.tscn" id="2_c54nd"]
+[ext_resource type="PackedScene" uid="uid://c6pism2kgjr5c" path="res://Framework/Scenes/PopupMenu/PopupMenu.tscn" id="4_popup"]
+[ext_resource type="Script" uid="uid://dfnutugabosxu" path="res://Game/FlowField/Editor/TerrainEditor.gd" id="5_4dbjc"]
+[ext_resource type="Terrain3DAssets" uid="uid://rla5bgb8yvqp" path="res://Game/Terrain/test2lanetiny/assets.tres" id="7_uiuc5"]
+[ext_resource type="Terrain3DMaterial" uid="uid://bjsp6h4jb67qg" path="res://Game/Terrain/test2lanetiny/terrain_material.tres" id="13_a0snr"]
+[ext_resource type="Script" uid="uid://d2afdhn7udnw5" path="res://addons/flowfield_baker/FlowFieldBakeNode.cs" id="15_l0uvr"]
+[ext_resource type="Resource" uid="uid://d187rgefm82n0" path="res://Game/Terrain/test2lanetiny/flowfield_data.res" id="16_0gjsu"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_a0snr"]
+
+[sub_resource type="Sky" id="Sky_qworr"]
+sky_material = SubResource("ProceduralSkyMaterial_a0snr")
+
+[sub_resource type="Environment" id="Environment_b0e2u"]
+background_mode = 2
+sky = SubResource("Sky_qworr")
+ambient_light_source = 3
+ambient_light_color = Color(0.54902, 0.54902, 0.54902, 1)
+ambient_light_sky_contribution = 0.3
+tonemap_mode = 3
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_b0e2u"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(0, -10, 0, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_r7024"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(0, -10, 128, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_kq860"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(0, -10, 256, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_l0uvr"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(0, -10, 384, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_0gjsu"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(0, -10, 512, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_dqd2h"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(0, -10, 640, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_wwojo"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(0, -10, 768, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_6i3rg"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(0, -10, 896, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_vg5om"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(128, -10, 0, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_r5kvm"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(128, -10, 128, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_k3gak"]
+vertices = PackedVector3Array(228.22803, 0.25025, 381.38104, 252.25201, 0.25025, 381.38104, 252.25201, 0.25025, 288.28802, 225.22502, 0.25025, 288.28802)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(128, -10, 256, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_g3s4g"]
+vertices = PackedVector3Array(252.25201, 0.25025, 384.38403, 228.22803, 0.25025, 384.38403, 225.22502, 0.25025, 438.43805, 225.22502, 0.25025, 507.50705, 252.25201, 0.25025, 507.50705)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(128, -10, 384, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_neg0a"]
+vertices = PackedVector3Array(225.22502, 0.25025, 627.6271, 228.22803, 0.25025, 636.63605, 252.25201, 0.25025, 636.63605, 252.25201, 0.25025, 513.51306, 225.22502, 0.25025, 513.51306)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Array(2, 4, 3)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(128, -10, 512, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_sxlse"]
+vertices = PackedVector3Array(225.22502, 0.25025, 696.69604, 225.22502, 0.25025, 741.7411, 252.25201, 0.25025, 738.73804, 252.25201, 0.25025, 642.642, 228.22803, 0.25025, 642.642)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Array(2, 4, 3)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(128, -10, 640, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_th5yq"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(128, -10, 768, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_lor77"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(128, -10, 896, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_srrnf"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(256, -10, 0, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_d84xl"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(256, -10, 128, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_bcwq6"]
+vertices = PackedVector3Array(381.38104, 0.25025, 381.38104, 381.38104, 0.25025, 294.29404, 348.34802, 0.5005, 282.282, 258.25803, 0.25025, 288.28802, 258.25803, 0.25025, 381.38104)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(256, -10, 256, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_daisu"]
+vertices = PackedVector3Array(258.25803, 0.25025, 384.38403, 258.25803, 0.25025, 507.50705, 381.38104, 0.25025, 507.50705, 381.38104, 0.25025, 384.38403)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(256, -10, 384, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_catpm"]
+vertices = PackedVector3Array(258.25803, 0.25025, 513.51306, 258.25803, 0.25025, 636.63605, 381.38104, 0.25025, 636.63605, 381.38104, 0.25025, 513.51306)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(256, -10, 512, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_2228s"]
+vertices = PackedVector3Array(345.34503, 0.25025, 741.7411, 381.38104, 0.25025, 726.7261, 381.38104, 0.25025, 642.642, 258.25803, 0.25025, 642.642, 258.25803, 0.25025, 741.7411)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Array(2, 4, 3)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(256, -10, 640, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_75my6"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(256, -10, 768, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_lwy1w"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(256, -10, 896, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_8aolt"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(384, -10, 0, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_6knxx"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(384, -10, 128, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_s1nad"]
+vertices = PackedVector3Array(507.50705, 0.25025, 381.38104, 507.50705, 0.5005, 309.30902, 486.48605, 0.25025, 312.312, 384.38403, 0.25025, 381.38104, 384.38403, 0.25025, 297.29703)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 2, 3), PackedInt32Array(3, 2, 0)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(384, -10, 256, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_60uut"]
+vertices = PackedVector3Array(444.44403, 0.25025, 387.38702, 507.50705, 0.25025, 387.38702, 384.38403, 0.25025, 384.38403, 417.41702, 0.25025, 396.39603, 408.40802, 0.5005, 411.41104, 405.40503, 0.25025, 444.44403, 384.38403, 0.25025, 507.50705, 447.44705, 0.25025, 507.50705, 435.43503, 0.25025, 468.46805, 417.41702, 0.75075006, 453.45303)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(2, 0, 3), PackedInt32Array(2, 3, 4), PackedInt32Array(4, 5, 2), PackedInt32Array(2, 5, 6), PackedInt32Array(8, 7, 9), PackedInt32Array(9, 7, 5), PackedInt32Array(5, 7, 6)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(384, -10, 384, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_tkelj"]
+vertices = PackedVector3Array(408.40802, 0.25025, 570.57007, 429.42905, 0.25025, 561.56104, 441.44104, 0.5005, 546.546, 447.44705, 0.25025, 513.51306, 384.38403, 0.25025, 513.51306, 384.38403, 0.25025, 636.63605, 408.40802, 0.25025, 615.61505, 408.40802, 1.7517501, 600.60004, 438.43805, 0.25025, 633.63306, 423.42303, 1.001, 624.624, 507.50705, 0.25025, 636.63605, 501.50104, 2.7527502, 630.63007)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4), PackedInt32Array(6, 5, 7), PackedInt32Array(7, 5, 0), PackedInt32Array(0, 5, 4), PackedInt32Array(6, 9, 5), PackedInt32Array(5, 9, 8), PackedInt32Array(11, 10, 8), PackedInt32Array(8, 10, 5)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(384, -10, 512, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_el87n"]
+vertices = PackedVector3Array(384.38403, 0.25025, 726.7261, 405.40503, 0.75075006, 726.7261, 420.42004, 0.25025, 717.71704, 384.38403, 0.25025, 642.642, 507.50705, 0.25025, 711.71106, 507.50705, 0.25025, 642.642)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(4, 2, 5), PackedInt32Array(5, 2, 3)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(384, -10, 640, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_cgua5"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(384, -10, 768, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_1u8cd"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(384, -10, 896, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_rqo0y"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(512, -10, 0, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_y5j8q"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(512, -10, 128, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_u1s5m"]
+vertices = PackedVector3Array(636.63605, 0.25025, 381.38104, 636.63605, 0.25025, 297.29703, 597.59705, 0.25025, 306.30603, 513.51306, 0.25025, 381.38104, 513.51306, 0.5005, 309.30902)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 2, 3), PackedInt32Array(3, 2, 0)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(512, -10, 256, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_w2xn2"]
+vertices = PackedVector3Array(636.63605, 0.25025, 384.38403, 513.51306, 0.25025, 384.38403, 582.58203, 0.25025, 387.38702, 606.6061, 0.25025, 399.39905, 594.59406, 0.75075006, 393.39304, 612.61206, 0.75075006, 408.40802, 612.61206, 1.7517501, 444.44403, 636.63605, 0.25025, 507.50705, 585.585, 1.5015001, 462.46204, 570.57007, 0.5005, 507.50705, 597.59705, 0.25025, 453.45303, 579.57904, 0.25025, 477.47705, 600.60004, 0.25025, 471.47104, 618.61804, 0.25025, 471.47104)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(3, 4, 0), PackedInt32Array(0, 4, 2), PackedInt32Array(5, 3, 0), PackedInt32Array(5, 0, 6), PackedInt32Array(6, 0, 7), PackedInt32Array(7, 13, 6), PackedInt32Array(6, 13, 10), PackedInt32Array(10, 12, 8), PackedInt32Array(8, 12, 11), PackedInt32Array(11, 12, 9), PackedInt32Array(9, 12, 7), PackedInt32Array(7, 12, 13), PackedInt32Array(13, 12, 10)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(512, -10, 384, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_rv1jo"]
+vertices = PackedVector3Array(579.57904, 0.25025, 633.63306, 513.51306, 1.001, 633.63306, 636.63605, 0.25025, 636.63605, 597.59705, 0.75075006, 624.624, 612.61206, 0.25025, 600.60004, 603.603, 1.001, 612.61206, 615.61505, 0.25025, 576.57605, 636.63605, 0.25025, 513.51306, 570.57007, 0.25025, 513.51306, 582.58203, 1.001, 555.55505, 594.59406, 1.25125, 561.56104, 603.603, 0.25025, 570.57007)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 5, 2), PackedInt32Array(2, 5, 4), PackedInt32Array(4, 6, 2), PackedInt32Array(2, 6, 7), PackedInt32Array(9, 8, 10), PackedInt32Array(10, 8, 11), PackedInt32Array(11, 8, 6), PackedInt32Array(6, 8, 7)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(512, -10, 512, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_qqtmv"]
+vertices = PackedVector3Array(513.51306, 0.25025, 711.71106, 636.63605, 0.25025, 723.7231, 636.63605, 0.25025, 642.642, 513.51306, 0.25025, 642.642, 567.5671, 0.25025, 714.71405, 582.58203, 2.5025, 717.71704, 600.60004, 0.25025, 717.71704, 600.60004, 0.25025, 693.69305, 582.58203, 0.25025, 711.71106, 618.61804, 0.75075006, 675.67505, 600.60004, 0.25025, 675.67505)
+polygons = [PackedInt32Array(2, 10, 3), PackedInt32Array(3, 4, 0), PackedInt32Array(4, 8, 5), PackedInt32Array(5, 8, 6), PackedInt32Array(6, 7, 1), PackedInt32Array(1, 9, 2), PackedInt32Array(10, 4, 3), PackedInt32Array(2, 9, 10), PackedInt32Array(4, 10, 8), PackedInt32Array(8, 7, 6), PackedInt32Array(7, 9, 1), PackedInt32Array(9, 7, 10), PackedInt32Array(10, 7, 8)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(512, -10, 640, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_gaka1"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(512, -10, 768, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_k1xqh"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(512, -10, 896, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_p3oj0"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(640, -10, 0, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_47240"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(640, -10, 128, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_1grf3"]
+vertices = PackedVector3Array(699.69904, 0.25025, 285.28503, 672.67206, 0.25025, 285.28503, 642.642, 0.25025, 297.29703, 765.7651, 0.25025, 285.28503, 705.7051, 1.001, 279.27902, 642.642, 0.25025, 381.38104, 765.7651, 0.25025, 381.38104)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(3, 0, 4), PackedInt32Array(0, 3, 2), PackedInt32Array(2, 3, 5), PackedInt32Array(5, 3, 6)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(640, -10, 256, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_f0rx3"]
+vertices = PackedVector3Array(642.642, 0.25025, 384.38403, 642.642, 0.25025, 507.50705, 765.7651, 0.25025, 507.50705, 765.7651, 0.25025, 384.38403)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(640, -10, 384, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_c3xwj"]
+vertices = PackedVector3Array(642.642, 0.25025, 513.51306, 642.642, 0.25025, 636.63605, 765.7651, 0.25025, 636.63605, 765.7651, 0.25025, 513.51306)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(640, -10, 512, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_np6dw"]
+vertices = PackedVector3Array(642.642, 0.25025, 642.642, 642.642, 3.5035002, 726.7261, 663.6631, 0.25025, 726.7261, 642.642, 0.25025, 708.70807, 651.65106, 0.25025, 726.7261, 687.6871, 0.25025, 735.73505, 765.7651, 0.25025, 735.73505, 765.7651, 0.25025, 642.642)
+polygons = [PackedInt32Array(1, 3, 4), PackedInt32Array(4, 3, 2), PackedInt32Array(2, 3, 0), PackedInt32Array(5, 2, 6), PackedInt32Array(6, 2, 7), PackedInt32Array(7, 2, 0)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(640, -10, 640, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_pb361"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(640, -10, 768, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_gp1pp"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(640, -10, 896, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_wsp8d"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(768, -10, 0, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_v7k33"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(768, -10, 128, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_rhf81"]
+vertices = PackedVector3Array(768.76807, 0.25025, 381.38104, 798.7981, 0.25025, 381.38104, 795.79504, 0.25025, 285.28503, 768.76807, 0.25025, 285.28503)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(768, -10, 256, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_uow5m"]
+vertices = PackedVector3Array(768.76807, 0.25025, 507.50705, 798.7981, 0.25025, 507.50705, 801.8011, 1.5015001, 486.48605, 795.79504, 0.25025, 453.45303, 801.8011, 0.25025, 498.49805, 798.7981, 0.25025, 471.47104, 768.76807, 0.25025, 384.38403, 798.7981, 0.25025, 384.38403)
+polygons = [PackedInt32Array(2, 4, 5), PackedInt32Array(5, 4, 1), PackedInt32Array(5, 1, 3), PackedInt32Array(3, 1, 0), PackedInt32Array(7, 3, 6), PackedInt32Array(6, 3, 0)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(768, -10, 384, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_w4jru"]
+vertices = PackedVector3Array(768.76807, 0.25025, 513.51306, 768.76807, 0.25025, 636.63605, 798.7981, 0.25025, 636.63605, 798.7981, 1.5015001, 513.51306, 783.7831, 0.25025, 513.51306, 798.7981, 2.002, 618.61804, 798.7981, 2.7527502, 600.60004, 798.7981, 5.5055003, 582.58203, 798.7981, 9.259251, 567.5671, 798.7981, 5.75575, 549.5491, 798.7981, 4.5045004, 531.53107)
+polygons = [PackedInt32Array(3, 10, 4), PackedInt32Array(4, 10, 0), PackedInt32Array(0, 10, 9), PackedInt32Array(0, 9, 8), PackedInt32Array(0, 8, 7), PackedInt32Array(0, 7, 6), PackedInt32Array(0, 6, 5), PackedInt32Array(0, 5, 2), PackedInt32Array(0, 2, 1)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(768, -10, 512, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_dhqko"]
+vertices = PackedVector3Array(768.76807, 0.25025, 735.73505, 798.7981, 0.5005, 738.73804, 798.7981, 0.25025, 642.642, 768.76807, 0.25025, 642.642, 798.7981, 0.25025, 720.7201, 798.7981, 2.002, 705.7051, 798.7981, 0.25025, 690.69006)
+polygons = [PackedInt32Array(1, 0, 4), PackedInt32Array(4, 0, 5), PackedInt32Array(5, 0, 6), PackedInt32Array(6, 0, 2), PackedInt32Array(2, 0, 3)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(768, -10, 640, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_a1ngs"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(768, -10, 768, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_m27oo"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(768, -10, 896, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_sncg8"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(896, -10, 0, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_cg8cw"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(896, -10, 128, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_33y0a"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(896, -10, 256, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_43awg"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(896, -10, 384, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_7rqdd"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(896, -10, 512, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_jgc22"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(896, -10, 640, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_w6eiu"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(896, -10, 768, 128, 500, 128)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_ygdvr"]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"terrain3d_navs"
+cell_size = 3.0
+agent_height = 0.25
+agent_radius = 3.0
+agent_max_climb = 3.0
+filter_baking_aabb = AABB(896, -10, 896, 128, 500, 128)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_l7tce"]
+height = 10.0
+radius = 5.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_b0e2u"]
+height = 10.0
+radius = 15.0
+
+[node name="SimTest" type="Node3D" unique_id=672070234]
+script = ExtResource("1_uiuc5")
+Model = ExtResource("2_4dbjc")
+
+[node name="Team0LeftCardGrid" type="Marker3D" parent="." unique_id=406573149]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 277.21036, 0, 364.43848)
+
+[node name="Team0GarrisonCardGrid" type="Marker3D" parent="." unique_id=1609219763]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 277.21036, 0, 509.16034)
+
+[node name="Team0RightCardGrid" type="Marker3D" parent="." unique_id=1532579877]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 277.21036, 0, 663.2794)
+
+[node name="Team1CardGrid" type="Marker3D" parent="." unique_id=1116478918]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 743.9954, 0, 368.25192)
+
+[node name="Team0FlowGoal" type="Marker3D" parent="." unique_id=1812774429 groups=["FlowFieldT0Goal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 639.06116, 0, 509.69205)
+
+[node name="Team1FlowGoal" type="Marker3D" parent="." unique_id=2042473832 groups=["FlowFieldT1Goal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 382.14487, 0, 512.32874)
+
+[node name="WorldCards" type="Node3D" parent="." unique_id=996550478]
+unique_name_in_owner = true
+
+[node name="CardWorldInteractions" type="Node3D" parent="." unique_id=415995893]
+unique_name_in_owner = true
+
+[node name="Environment" type="Node3D" parent="." unique_id=503351603]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=1543030385]
+environment = SubResource("Environment_b0e2u")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment" unique_id=617987114]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 50, 0)
+shadow_enabled = true
+shadow_blur = 2.0
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 256.0
+
+[node name="Player" parent="." unique_id=498796313 instance=ExtResource("2_c54nd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 141.76025, 80.48346, 444.06165)
+
+[node name="FlowFieldBakeNode" type="Node3D" parent="." unique_id=112684026]
+script = ExtResource("15_l0uvr")
+Terrain3DPath = NodePath("../Terrain3D")
+BoundsProviderPath = NodePath("../TerrainEditor")
+BuildingContainerPath = NodePath("../Buildings")
+Team0GoalPath = NodePath("../Team0FlowGoal")
+Team1GoalPath = NodePath("../Team1FlowGoal")
+BrushRadiusCells = 3
+BrushCostValue = 1
+BakedData = ExtResource("16_0gjsu")
+CSharpExportPath = "res://addons/flowfield_baker/export"
+OverlayYOffset = 1.0
+ShowCosts = true
+metadata/_custom_type_script = "uid://d2afdhn7udnw5"
+
+[node name="TerrainEditor" type="Node" parent="." unique_id=1859082183 node_paths=PackedStringArray("terrain", "flow_regions_container")]
+unique_name_in_owner = true
+script = ExtResource("5_4dbjc")
+terrain = NodePath("../Terrain3D")
+flow_regions_container = NodePath("../Regions")
+bounds = Rect2i(0, 0, 1024, 1024)
+
+[node name="Terrain3D" type="Terrain3D" parent="." unique_id=299532564 groups=["terrain3d_navs"]]
+data_directory = "res://Game/Terrain/test2lanetiny"
+material = ExtResource("13_a0snr")
+assets = ExtResource("7_uiuc5")
+collision_mode = 3
+displacement_sharpness = 0.5
+top_level = true
+metadata/_edit_lock_ = true
+
+[node name="Regions" type="Node" parent="." unique_id=1561386767]
+
+[node name="FlowRegion_0_0" type="NavigationRegion3D" parent="Regions" unique_id=1931033068]
+navigation_mesh = SubResource("NavigationMesh_b0e2u")
+
+[node name="FlowRegion_0_128" type="NavigationRegion3D" parent="Regions" unique_id=544310623]
+navigation_mesh = SubResource("NavigationMesh_r7024")
+
+[node name="FlowRegion_0_256" type="NavigationRegion3D" parent="Regions" unique_id=730670288]
+navigation_mesh = SubResource("NavigationMesh_kq860")
+
+[node name="FlowRegion_0_384" type="NavigationRegion3D" parent="Regions" unique_id=1952313986]
+navigation_mesh = SubResource("NavigationMesh_l0uvr")
+
+[node name="FlowRegion_0_512" type="NavigationRegion3D" parent="Regions" unique_id=1401730339]
+navigation_mesh = SubResource("NavigationMesh_0gjsu")
+
+[node name="FlowRegion_0_640" type="NavigationRegion3D" parent="Regions" unique_id=1568043399]
+navigation_mesh = SubResource("NavigationMesh_dqd2h")
+
+[node name="FlowRegion_0_768" type="NavigationRegion3D" parent="Regions" unique_id=696160100]
+navigation_mesh = SubResource("NavigationMesh_wwojo")
+
+[node name="FlowRegion_0_896" type="NavigationRegion3D" parent="Regions" unique_id=1810760989]
+navigation_mesh = SubResource("NavigationMesh_6i3rg")
+
+[node name="FlowRegion_128_0" type="NavigationRegion3D" parent="Regions" unique_id=48178486]
+navigation_mesh = SubResource("NavigationMesh_vg5om")
+
+[node name="FlowRegion_128_128" type="NavigationRegion3D" parent="Regions" unique_id=1742650114]
+navigation_mesh = SubResource("NavigationMesh_r5kvm")
+
+[node name="FlowRegion_128_256" type="NavigationRegion3D" parent="Regions" unique_id=827973830]
+navigation_mesh = SubResource("NavigationMesh_k3gak")
+
+[node name="FlowRegion_128_384" type="NavigationRegion3D" parent="Regions" unique_id=736364080]
+navigation_mesh = SubResource("NavigationMesh_g3s4g")
+
+[node name="FlowRegion_128_512" type="NavigationRegion3D" parent="Regions" unique_id=1582243659]
+navigation_mesh = SubResource("NavigationMesh_neg0a")
+
+[node name="FlowRegion_128_640" type="NavigationRegion3D" parent="Regions" unique_id=1109849400]
+navigation_mesh = SubResource("NavigationMesh_sxlse")
+
+[node name="FlowRegion_128_768" type="NavigationRegion3D" parent="Regions" unique_id=2128419867]
+navigation_mesh = SubResource("NavigationMesh_th5yq")
+
+[node name="FlowRegion_128_896" type="NavigationRegion3D" parent="Regions" unique_id=1653935883]
+navigation_mesh = SubResource("NavigationMesh_lor77")
+
+[node name="FlowRegion_256_0" type="NavigationRegion3D" parent="Regions" unique_id=1148930620]
+navigation_mesh = SubResource("NavigationMesh_srrnf")
+
+[node name="FlowRegion_256_128" type="NavigationRegion3D" parent="Regions" unique_id=1872251812]
+navigation_mesh = SubResource("NavigationMesh_d84xl")
+
+[node name="FlowRegion_256_256" type="NavigationRegion3D" parent="Regions" unique_id=1587393141]
+navigation_mesh = SubResource("NavigationMesh_bcwq6")
+
+[node name="FlowRegion_256_384" type="NavigationRegion3D" parent="Regions" unique_id=506152334]
+navigation_mesh = SubResource("NavigationMesh_daisu")
+
+[node name="FlowRegion_256_512" type="NavigationRegion3D" parent="Regions" unique_id=1388016056]
+navigation_mesh = SubResource("NavigationMesh_catpm")
+
+[node name="FlowRegion_256_640" type="NavigationRegion3D" parent="Regions" unique_id=1772294306]
+navigation_mesh = SubResource("NavigationMesh_2228s")
+
+[node name="FlowRegion_256_768" type="NavigationRegion3D" parent="Regions" unique_id=2013592815]
+navigation_mesh = SubResource("NavigationMesh_75my6")
+
+[node name="FlowRegion_256_896" type="NavigationRegion3D" parent="Regions" unique_id=1813397425]
+navigation_mesh = SubResource("NavigationMesh_lwy1w")
+
+[node name="FlowRegion_384_0" type="NavigationRegion3D" parent="Regions" unique_id=343180172]
+navigation_mesh = SubResource("NavigationMesh_8aolt")
+
+[node name="FlowRegion_384_128" type="NavigationRegion3D" parent="Regions" unique_id=1772060673]
+navigation_mesh = SubResource("NavigationMesh_6knxx")
+
+[node name="FlowRegion_384_256" type="NavigationRegion3D" parent="Regions" unique_id=1002360690]
+navigation_mesh = SubResource("NavigationMesh_s1nad")
+
+[node name="FlowRegion_384_384" type="NavigationRegion3D" parent="Regions" unique_id=426153017]
+navigation_mesh = SubResource("NavigationMesh_60uut")
+
+[node name="FlowRegion_384_512" type="NavigationRegion3D" parent="Regions" unique_id=493598577]
+navigation_mesh = SubResource("NavigationMesh_tkelj")
+
+[node name="FlowRegion_384_640" type="NavigationRegion3D" parent="Regions" unique_id=913345234]
+navigation_mesh = SubResource("NavigationMesh_el87n")
+
+[node name="FlowRegion_384_768" type="NavigationRegion3D" parent="Regions" unique_id=662629684]
+navigation_mesh = SubResource("NavigationMesh_cgua5")
+
+[node name="FlowRegion_384_896" type="NavigationRegion3D" parent="Regions" unique_id=2044960757]
+navigation_mesh = SubResource("NavigationMesh_1u8cd")
+
+[node name="FlowRegion_512_0" type="NavigationRegion3D" parent="Regions" unique_id=1816969104]
+navigation_mesh = SubResource("NavigationMesh_rqo0y")
+
+[node name="FlowRegion_512_128" type="NavigationRegion3D" parent="Regions" unique_id=1910217707]
+navigation_mesh = SubResource("NavigationMesh_y5j8q")
+
+[node name="FlowRegion_512_256" type="NavigationRegion3D" parent="Regions" unique_id=2088099579]
+navigation_mesh = SubResource("NavigationMesh_u1s5m")
+
+[node name="FlowRegion_512_384" type="NavigationRegion3D" parent="Regions" unique_id=1026116053]
+navigation_mesh = SubResource("NavigationMesh_w2xn2")
+
+[node name="FlowRegion_512_512" type="NavigationRegion3D" parent="Regions" unique_id=1788900965]
+navigation_mesh = SubResource("NavigationMesh_rv1jo")
+
+[node name="FlowRegion_512_640" type="NavigationRegion3D" parent="Regions" unique_id=1865511508]
+navigation_mesh = SubResource("NavigationMesh_qqtmv")
+
+[node name="FlowRegion_512_768" type="NavigationRegion3D" parent="Regions" unique_id=155200545]
+navigation_mesh = SubResource("NavigationMesh_gaka1")
+
+[node name="FlowRegion_512_896" type="NavigationRegion3D" parent="Regions" unique_id=1346477110]
+navigation_mesh = SubResource("NavigationMesh_k1xqh")
+
+[node name="FlowRegion_640_0" type="NavigationRegion3D" parent="Regions" unique_id=342005630]
+navigation_mesh = SubResource("NavigationMesh_p3oj0")
+
+[node name="FlowRegion_640_128" type="NavigationRegion3D" parent="Regions" unique_id=1602317337]
+navigation_mesh = SubResource("NavigationMesh_47240")
+
+[node name="FlowRegion_640_256" type="NavigationRegion3D" parent="Regions" unique_id=451015342]
+navigation_mesh = SubResource("NavigationMesh_1grf3")
+
+[node name="FlowRegion_640_384" type="NavigationRegion3D" parent="Regions" unique_id=1327703042]
+navigation_mesh = SubResource("NavigationMesh_f0rx3")
+
+[node name="FlowRegion_640_512" type="NavigationRegion3D" parent="Regions" unique_id=555978977]
+navigation_mesh = SubResource("NavigationMesh_c3xwj")
+
+[node name="FlowRegion_640_640" type="NavigationRegion3D" parent="Regions" unique_id=390786384]
+navigation_mesh = SubResource("NavigationMesh_np6dw")
+
+[node name="FlowRegion_640_768" type="NavigationRegion3D" parent="Regions" unique_id=1546154627]
+navigation_mesh = SubResource("NavigationMesh_pb361")
+
+[node name="FlowRegion_640_896" type="NavigationRegion3D" parent="Regions" unique_id=513843400]
+navigation_mesh = SubResource("NavigationMesh_gp1pp")
+
+[node name="FlowRegion_768_0" type="NavigationRegion3D" parent="Regions" unique_id=1227645050]
+navigation_mesh = SubResource("NavigationMesh_wsp8d")
+
+[node name="FlowRegion_768_128" type="NavigationRegion3D" parent="Regions" unique_id=1725267097]
+navigation_mesh = SubResource("NavigationMesh_v7k33")
+
+[node name="FlowRegion_768_256" type="NavigationRegion3D" parent="Regions" unique_id=752682157]
+navigation_mesh = SubResource("NavigationMesh_rhf81")
+
+[node name="FlowRegion_768_384" type="NavigationRegion3D" parent="Regions" unique_id=1918361951]
+navigation_mesh = SubResource("NavigationMesh_uow5m")
+
+[node name="FlowRegion_768_512" type="NavigationRegion3D" parent="Regions" unique_id=1017424847]
+navigation_mesh = SubResource("NavigationMesh_w4jru")
+
+[node name="FlowRegion_768_640" type="NavigationRegion3D" parent="Regions" unique_id=1638973346]
+navigation_mesh = SubResource("NavigationMesh_dhqko")
+
+[node name="FlowRegion_768_768" type="NavigationRegion3D" parent="Regions" unique_id=1394778105]
+navigation_mesh = SubResource("NavigationMesh_a1ngs")
+
+[node name="FlowRegion_768_896" type="NavigationRegion3D" parent="Regions" unique_id=2140325254]
+navigation_mesh = SubResource("NavigationMesh_m27oo")
+
+[node name="FlowRegion_896_0" type="NavigationRegion3D" parent="Regions" unique_id=25820340]
+navigation_mesh = SubResource("NavigationMesh_sncg8")
+
+[node name="FlowRegion_896_128" type="NavigationRegion3D" parent="Regions" unique_id=1959093476]
+navigation_mesh = SubResource("NavigationMesh_cg8cw")
+
+[node name="FlowRegion_896_256" type="NavigationRegion3D" parent="Regions" unique_id=260441954]
+navigation_mesh = SubResource("NavigationMesh_33y0a")
+
+[node name="FlowRegion_896_384" type="NavigationRegion3D" parent="Regions" unique_id=1972835553]
+navigation_mesh = SubResource("NavigationMesh_43awg")
+
+[node name="FlowRegion_896_512" type="NavigationRegion3D" parent="Regions" unique_id=829910264]
+navigation_mesh = SubResource("NavigationMesh_7rqdd")
+
+[node name="FlowRegion_896_640" type="NavigationRegion3D" parent="Regions" unique_id=432041746]
+navigation_mesh = SubResource("NavigationMesh_jgc22")
+
+[node name="FlowRegion_896_768" type="NavigationRegion3D" parent="Regions" unique_id=684964264]
+navigation_mesh = SubResource("NavigationMesh_w6eiu")
+
+[node name="FlowRegion_896_896" type="NavigationRegion3D" parent="Regions" unique_id=83234285]
+navigation_mesh = SubResource("NavigationMesh_ygdvr")
+
+[node name="Buildings" type="Node" parent="." unique_id=97585834]
+
+[node name="Tower" type="CSGCylinder3D" parent="Buildings" unique_id=1759648584]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 655.4098, 4.893194, 415.74554)
+radius = 5.0
+height = 10.0
+sides = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Tower" unique_id=401390701]
+shape = SubResource("CylinderShape3D_l7tce")
+
+[node name="Tower2" type="CSGCylinder3D" parent="Buildings" unique_id=492444255]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 368.1121, 4.893194, 415.7546)
+radius = 5.0
+height = 10.0
+sides = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Tower2" unique_id=569643657]
+shape = SubResource("CylinderShape3D_l7tce")
+
+[node name="Nexus" type="CSGCylinder3D" parent="Buildings" unique_id=671628578]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 385.17682, 4.893194, 513.9852)
+radius = 15.0
+height = 10.0
+sides = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Nexus" unique_id=1343825089]
+shape = SubResource("CylinderShape3D_b0e2u")
+
+[node name="Nexus2" type="CSGCylinder3D" parent="Buildings" unique_id=1890389940]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 639.76825, 4.893194, 513.9852)
+radius = 15.0
+height = 10.0
+sides = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Nexus2" unique_id=1156094795]
+shape = SubResource("CylinderShape3D_b0e2u")
+
+[node name="Tower4" type="CSGCylinder3D" parent="Buildings" unique_id=1632822956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 448.16348, 4.893194, 352.09723)
+radius = 5.0
+height = 10.0
+sides = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Tower4" unique_id=1739889682]
+shape = SubResource("CylinderShape3D_l7tce")
+
+[node name="Tower3" type="CSGCylinder3D" parent="Buildings" unique_id=2041072277]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 575.5931, 4.893194, 351.73947)
+radius = 5.0
+height = 10.0
+sides = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Tower3" unique_id=1535267973]
+shape = SubResource("CylinderShape3D_l7tce")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Buildings" unique_id=2092119214]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 272.87415, 13, 281.92023)
+size = Vector3(96, 25, 10)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Buildings" unique_id=2121254222]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 272.99466, 13, 454.0764)
+size = Vector3(96, 25, 10)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Buildings" unique_id=1146124893]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 271.64932, 13, 570.2967)
+size = Vector3(96, 25, 10)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Buildings" unique_id=970467556]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 271.6643, 13, 741.90594)
+size = Vector3(96, 25, 10)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Buildings" unique_id=664156102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 752.3779, 13, 570.98706)
+size = Vector3(96, 25, 10)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Buildings" unique_id=1578087154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 751.5835, 13, 741.89417)
+size = Vector3(96, 25, 10)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Buildings" unique_id=404766860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 752.1908, 13, 282.58087)
+size = Vector3(96, 25, 10)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Buildings" unique_id=1407553534]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 751.67834, 13, 453.24146)
+size = Vector3(96, 25, 10)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1237942480]
+
+[node name="PopupMenu" parent="CanvasLayer" unique_id=832860443 instance=ExtResource("4_popup")]
+visible = false
