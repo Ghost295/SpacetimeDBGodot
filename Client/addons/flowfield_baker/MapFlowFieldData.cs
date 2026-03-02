@@ -4,7 +4,7 @@ namespace SpacetimeDB.Addons.FlowFieldBaker;
 
 /// <summary>
 /// Baked map flowfield payload written by the flowfield baker addon.
-/// Stores metadata + costfield + one precomputed flowfield per team.
+/// Stores core map metadata, costfield, and one precomputed flowfield per team.
 /// </summary>
 [Tool, GlobalClass]
 public partial class MapFlowFieldData : Resource

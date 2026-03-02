@@ -1,0 +1,114 @@
+{
+  "units": [
+    {
+      "stable_id": 0,
+      "id": "spearman",
+      "unit_class": 0,
+      "max_health": 120,
+      "max_speed": 10,
+      "collision_radius": 0.8,
+      "separation_radius": 3.0,
+      "attack_damage": 12,
+      "attack_range": 2.5,
+      "attack_cooldown_ticks": 18,
+      "area_damage": 0,
+      "armor": 1.0,
+      "siege_damage": 0,
+      "abilities": [
+        {
+          "type": 1,
+          "attack_damage": 12,
+          "attack_range": 2.5,
+          "attack_speed": 1.111111111,
+          "bonuses": [
+            {
+              "target_class": 3,
+              "amount": 3,
+              "is_multiplier": false
+            }
+          ],
+          "statuses": []
+        }
+      ],
+      "statuses": []
+    },
+    {
+      "stable_id": 1,
+      "id": "archer",
+      "unit_class": 2,
+      "max_health": 80,
+      "max_speed": 4.0,
+      "collision_radius": 0.5,
+      "separation_radius": 2.0,
+      "attack_damage": 9,
+      "attack_range": 8.0,
+      "attack_cooldown_ticks": 24,
+      "area_damage": 0,
+      "armor": 0,
+      "siege_damage": 0,
+      "abilities": [
+        {
+          "type": 4,
+          "attack_damage": 9,
+          "attack_range": 8.0,
+          "attack_speed": 0.833333333,
+          "bonuses": [
+            {
+              "target_class": 1,
+              "amount": 2,
+              "is_multiplier": false
+            }
+          ],
+          "statuses": []
+        }
+      ],
+      "statuses": []
+    }
+  ],
+  "cards": [
+    {
+      "stable_id": 0,
+      "id": "spearman_card",
+      "price_gold": 3,
+      "card_size_x": 1,
+      "card_size_y": 1,
+      "base_attack_damage_bonus": 0,
+      "attack_damage_bonus_per_level": 2,
+      "spawns": [
+        {
+          "unit_archetype_id": 0,
+          "base_count": 100,
+          "growth_multiplier": 0
+        }
+      ],
+      "modifiers": [
+        {
+          "stable_id": 0,
+          "extra_attack_damage": 0
+        }
+      ]
+    },
+    {
+      "stable_id": 1,
+      "id": "archer_card",
+      "price_gold": 3,
+      "card_size_x": 1,
+      "card_size_y": 1,
+      "base_attack_damage_bonus": 0,
+      "attack_damage_bonus_per_level": 1,
+      "spawns": [
+        {
+          "unit_archetype_id": 1,
+          "base_count": 50,
+          "growth_multiplier": 0
+        }
+      ],
+      "modifiers": [
+        {
+          "stable_id": 0,
+          "extra_attack_damage": 0
+        }
+      ]
+    }
+  ]
+}

@@ -38,7 +38,7 @@ public static partial class Module
             throw new Exception("startingHealth must be > 0");
         }
 
-        ctx.Db.match.Insert(new Match
+        ctx.Db.Match.Insert(new Match
         {
             MatchId = 0,
             CreatedBy = ctx.Sender,
@@ -46,9 +46,21 @@ public static partial class Module
             CurrentRound = 0,
             TickRateTps = tickRateTps,
             SnapshotEveryNTicks = snapshotEveryNTicks,
+            SnapshotRetention = 180,
             MaxBattleTicks = maxBattleTicks,
             UnitsPerPlayer = unitsPerPlayer,
             StartingHealth = startingHealth,
+            RoundDamage = 1,
+            ShopBaseDurationSeconds = 25,
+            ShopDurationIncreaseSeconds = 5,
+            ShopGoldPerRound = 25,
+            ShopRerollCost = 1,
+            ShopOffersPerRound = 3,
+            ShopMaxLevel = 6,
+            ShopBaseUpgradeCost = 5,
+            ShopUpgradeCostPerLevel = 2,
+            StaticContentHash = SimContentRegistry.StaticContentHash,
+            MapFlowFieldHash = BakedFlowField.BakeHashBase64,
             CreatedAt = ctx.Timestamp,
             UpdatedAt = ctx.Timestamp,
             HasWinner = false,
@@ -77,13 +89,32 @@ public static partial class Module
         }
 
         var players = GetPlayersForMatch(ctx, matchId);
-        var nextSeat = 0;
-        for (var i = 0; i < players.Count; i++)
+        if (players.Count >= 2)
         {
-            nextSeat = Math.Max(nextSeat, players[i].SeatIndex + 1);
+            throw new Exception("This match already has two players.");
         }
 
-        ctx.Db.match_player.Insert(new MatchPlayer
+        var seat0Used = false;
+        var seat1Used = false;
+        for (var i = 0; i < players.Count; i++)
+        {
+            if (players[i].SeatIndex == 0)
+            {
+                seat0Used = true;
+            }
+            else if (players[i].SeatIndex == 1)
+            {
+                seat1Used = true;
+            }
+        }
+
+        var nextSeat = !seat0Used ? 0 : (!seat1Used ? 1 : -1);
+        if (nextSeat < 0)
+        {
+            throw new Exception("No available 1v1 seat was found.");
+        }
+
+        ctx.Db.MatchPlayer.Insert(new MatchPlayer
         {
             MatchPlayerId = 0,
             MatchId = matchId,
@@ -93,90 +124,80 @@ public static partial class Module
             Eliminated = false,
             JoinedAt = ctx.Timestamp,
         });
+
+        SeedDefaultLoadoutForPlayer(ctx, matchId, ctx.Sender);
+
+        var refreshedMatch = GetMatchOrThrow(ctx, matchId);
+        var activePlayers = GetActivePlayersForMatch(matchId, ctx);
+        if (activePlayers.Count == 2 &&
+            refreshedMatch.Status != SimConstants.MatchBattle &&
+            refreshedMatch.Status != SimConstants.MatchCompleted)
+        {
+            StartShopRoundInternal(ctx, refreshedMatch, Math.Max(1, refreshedMatch.CurrentRound + 1));
+        }
     }
 
     [SpacetimeDB.Reducer]
     public static void LeaveMatch(ReducerContext ctx, ulong matchId)
     {
-        _ = GetMatchOrThrow(ctx, matchId);
+        var match = GetMatchOrThrow(ctx, matchId);
         if (FindPlayer(ctx, matchId, ctx.Sender) is not MatchPlayer player)
         {
             throw new Exception("Player is not part of this match.");
         }
 
-        ctx.Db.match_player.MatchPlayerId.Delete(player.MatchPlayerId);
+        ctx.Db.MatchPlayer.MatchPlayerId.Delete(player.MatchPlayerId);
+
+        var cards = GetPlayerCards(ctx, matchId, ctx.Sender);
+        for (var i = 0; i < cards.Count; i++)
+        {
+            ctx.Db.MatchPlayerCard.MatchPlayerCardId.Delete(cards[i].MatchPlayerCardId);
+        }
+
+        if (ctx.Db.PlayerBattleView.PlayerIdentity.Find(ctx.Sender) is PlayerBattleView viewRow &&
+            viewRow.MatchId == matchId)
+        {
+            ctx.Db.PlayerBattleView.PlayerIdentity.Delete(ctx.Sender);
+        }
+
+        RemoveShopRowsForPlayer(ctx, matchId, ctx.Sender);
+
+        var remainingActivePlayers = GetActivePlayersForMatch(matchId, ctx);
+        if (remainingActivePlayers.Count <= 1)
+        {
+            var updatedMatch = match;
+            updatedMatch.Status = SimConstants.MatchCompleted;
+            updatedMatch.UpdatedAt = ctx.Timestamp;
+            updatedMatch.HasWinner = remainingActivePlayers.Count == 1;
+            updatedMatch.Winner = remainingActivePlayers.Count == 1
+                ? remainingActivePlayers[0].PlayerIdentity
+                : default;
+            ctx.Db.Match.MatchId.Update(updatedMatch);
+            DeleteShopTimer(ctx, matchId);
+        }
     }
 
     [SpacetimeDB.Reducer]
     public static void StartRound(ReducerContext ctx, ulong matchId)
     {
         var match = GetMatchOrThrow(ctx, matchId);
-        if (match.Status == SimConstants.MatchBattle)
-        {
-            throw new Exception("Match already has an active round.");
-        }
-
         if (match.Status == SimConstants.MatchCompleted)
         {
             throw new Exception("Cannot start a round on a completed match.");
         }
 
-        var players = GetPlayersForMatch(ctx, matchId);
-        var activePlayers = new List<MatchPlayer>();
-        for (var i = 0; i < players.Count; i++)
+        if (match.Status == SimConstants.MatchLobby)
         {
-            if (!players[i].Eliminated && players[i].Health > 0)
+            var activePlayers = GetActivePlayersForMatch(matchId, ctx);
+            if (activePlayers.Count < 2)
             {
-                activePlayers.Add(players[i]);
+                throw new Exception("At least two active players are required to start a round.");
             }
+
+            StartShopRoundInternal(ctx, match, Math.Max(1, match.CurrentRound + 1));
         }
 
-        if (activePlayers.Count < 2)
-        {
-            throw new Exception("At least two active players are required to start a round.");
-        }
-
-        activePlayers.Sort((a, b) => a.SeatIndex.CompareTo(b.SeatIndex));
-        var round = ctx.Db.match_round.Insert(new MatchRound
-        {
-            RoundId = 0,
-            MatchId = matchId,
-            RoundNumber = match.CurrentRound + 1,
-            Status = SimConstants.RoundBattle,
-            BattleCount = 0,
-            StartedAt = ctx.Timestamp,
-            EndedAt = default,
-            HasEndedAt = false,
-        });
-
-        var battleCount = 0;
-        for (var i = 0; i + 1 < activePlayers.Count; i += 2)
-        {
-            var playerA = activePlayers[i];
-            var playerB = activePlayers[i + 1];
-            CreateBattleInternal(
-                ctx,
-                matchId,
-                round.RoundId,
-                playerA.PlayerIdentity,
-                playerB.PlayerIdentity,
-                match.TickRateTps,
-                match.SnapshotEveryNTicks,
-                match.MaxBattleTicks,
-                match.UnitsPerPlayer,
-                ((ulong)round.RoundNumber << 32) ^ (ulong)i ^ matchId);
-            battleCount++;
-        }
-
-        var updatedRound = round;
-        updatedRound.BattleCount = battleCount;
-        ctx.Db.match_round.RoundId.Update(updatedRound);
-
-        var updatedMatch = match;
-        updatedMatch.Status = battleCount > 0 ? SimConstants.MatchBattle : SimConstants.MatchShop;
-        updatedMatch.CurrentRound = round.RoundNumber;
-        updatedMatch.UpdatedAt = ctx.Timestamp;
-        ctx.Db.match.MatchId.Update(updatedMatch);
+        RequestBattleStart(ctx, matchId);
     }
 
     [SpacetimeDB.Reducer]
@@ -193,9 +214,154 @@ public static partial class Module
             throw new Exception("Current round row is missing.");
         }
 
+        _ = TryFinalizeRoundIfComplete(ctx, matchId, round.RoundId, throwIfIncomplete: true);
+    }
+
+    [SpacetimeDB.Reducer]
+    public static void TickShopRoundTimer(ReducerContext ctx, ShopRoundTimer timer)
+    {
+        if (ctx.Db.Match.MatchId.Find(timer.MatchId) is not Match match)
+        {
+            DeleteShopTimer(ctx, timer.MatchId);
+            return;
+        }
+
+        if (ctx.Db.MatchRound.RoundId.Find(timer.RoundId) is not MatchRound round)
+        {
+            DeleteShopTimer(ctx, timer.MatchId);
+            return;
+        }
+
+        _ = StartBattleRoundInternal(ctx, match, round, skipIfNotShop: true);
+    }
+
+    private static MatchRound StartShopRoundInternal(ReducerContext ctx, Match match, int roundNumber)
+    {
+        var activePlayers = GetActivePlayersForMatch(match.MatchId, ctx);
+        if (activePlayers.Count < 2)
+        {
+            throw new Exception("At least two active players are required to start shop.");
+        }
+
+        if (match.Status == SimConstants.MatchShop &&
+            match.CurrentRound == roundNumber &&
+            FindCurrentRound(ctx, match.MatchId, roundNumber) is MatchRound existingRound &&
+            existingRound.Status == SimConstants.RoundPending)
+        {
+            return existingRound;
+        }
+
+        var round = ctx.Db.MatchRound.Insert(new MatchRound
+        {
+            RoundId = 0,
+            MatchId = match.MatchId,
+            RoundNumber = Math.Max(1, roundNumber),
+            Status = SimConstants.RoundPending,
+            BattleCount = 0,
+            StartedAt = ctx.Timestamp,
+            EndedAt = default,
+            HasEndedAt = false,
+        });
+
+        var updatedMatch = match;
+        updatedMatch.Status = SimConstants.MatchShop;
+        updatedMatch.CurrentRound = round.RoundNumber;
+        updatedMatch.UpdatedAt = ctx.Timestamp;
+        ctx.Db.Match.MatchId.Update(updatedMatch);
+
+        for (var i = 0; i < activePlayers.Count; i++)
+        {
+            StartOrRefreshShopStateForPlayer(ctx, updatedMatch, round, activePlayers[i].PlayerIdentity);
+        }
+
+        UpsertShopTimer(ctx, match.MatchId, round.RoundId, round.RoundNumber, ComputeShopDurationSeconds(updatedMatch, round.RoundNumber));
+        return round;
+    }
+
+    private static bool StartBattleRoundInternal(ReducerContext ctx, Match match, MatchRound round, bool skipIfNotShop)
+    {
+        if (skipIfNotShop &&
+            (match.Status != SimConstants.MatchShop || round.Status != SimConstants.RoundPending))
+        {
+            return false;
+        }
+
+        if (round.Status == SimConstants.RoundBattle)
+        {
+            return true;
+        }
+
+        var activePlayers = GetActivePlayersForMatch(match.MatchId, ctx);
+        if (activePlayers.Count < 2)
+        {
+            var completedRound = round;
+            completedRound.Status = SimConstants.RoundCompleted;
+            completedRound.EndedAt = ctx.Timestamp;
+            completedRound.HasEndedAt = true;
+            ctx.Db.MatchRound.RoundId.Update(completedRound);
+
+            var completedMatch = match;
+            completedMatch.Status = SimConstants.MatchCompleted;
+            completedMatch.UpdatedAt = ctx.Timestamp;
+            completedMatch.HasWinner = activePlayers.Count == 1;
+            completedMatch.Winner = activePlayers.Count == 1 ? activePlayers[0].PlayerIdentity : default;
+            ctx.Db.Match.MatchId.Update(completedMatch);
+            DeleteShopTimer(ctx, match.MatchId);
+            return false;
+        }
+
+        var playerA = activePlayers[0];
+        var playerB = activePlayers[1];
+        _ = CreateBattleInternal(
+            ctx,
+            match.MatchId,
+            round.RoundId,
+            playerA.PlayerIdentity,
+            playerB.PlayerIdentity,
+            match.TickRateTps,
+            match.SnapshotEveryNTicks,
+            match.MaxBattleTicks,
+            match.UnitsPerPlayer,
+            ((ulong)round.RoundNumber << 32) ^ round.RoundId ^ match.MatchId);
+
+        var updatedRound = round;
+        updatedRound.Status = SimConstants.RoundBattle;
+        updatedRound.BattleCount = 1;
+        ctx.Db.MatchRound.RoundId.Update(updatedRound);
+
+        var updatedMatch = match;
+        updatedMatch.Status = SimConstants.MatchBattle;
+        updatedMatch.UpdatedAt = ctx.Timestamp;
+        ctx.Db.Match.MatchId.Update(updatedMatch);
+        DeleteShopTimer(ctx, match.MatchId);
+        return true;
+    }
+
+    private static bool TryFinalizeRoundIfComplete(
+        ReducerContext ctx,
+        ulong matchId,
+        ulong roundId,
+        bool throwIfIncomplete)
+    {
+        var match = GetMatchOrThrow(ctx, matchId);
+        if (ctx.Db.MatchRound.RoundId.Find(roundId) is not MatchRound round)
+        {
+            if (throwIfIncomplete)
+            {
+                throw new Exception("Round row is missing.");
+            }
+
+            return false;
+        }
+
         if (round.Status != SimConstants.RoundBattle)
         {
-            throw new Exception("Round is not in battle phase.");
+            if (throwIfIncomplete)
+            {
+                throw new Exception("Round is not in battle phase.");
+            }
+
+            return false;
         }
 
         var battles = GetBattlesForRound(ctx, matchId, round.RoundId);
@@ -203,7 +369,12 @@ public static partial class Module
         {
             if (battles[i].Status != SimConstants.BattleCompleted)
             {
-                throw new Exception("Cannot end round while battles are still active.");
+                if (throwIfIncomplete)
+                {
+                    throw new Exception("Cannot end round while battles are still active.");
+                }
+
+                return false;
             }
         }
 
@@ -212,11 +383,11 @@ public static partial class Module
             var battle = battles[i];
             if (battle.WinnerTeam == SimConstants.TeamA)
             {
-                ApplyRoundDamage(ctx, matchId, battle.PlayerB, 1);
+                ApplyRoundDamage(ctx, matchId, battle.PlayerB, Math.Max(1, match.RoundDamage));
             }
             else if (battle.WinnerTeam == SimConstants.TeamB)
             {
-                ApplyRoundDamage(ctx, matchId, battle.PlayerA, 1);
+                ApplyRoundDamage(ctx, matchId, battle.PlayerA, Math.Max(1, match.RoundDamage));
             }
         }
 
@@ -237,14 +408,29 @@ public static partial class Module
         updatedRound.Status = SimConstants.RoundCompleted;
         updatedRound.EndedAt = ctx.Timestamp;
         updatedRound.HasEndedAt = true;
-        ctx.Db.match_round.RoundId.Update(updatedRound);
+        ctx.Db.MatchRound.RoundId.Update(updatedRound);
 
-        var updatedMatch = match;
-        updatedMatch.Status = activeCount <= 1 ? SimConstants.MatchCompleted : SimConstants.MatchShop;
-        updatedMatch.UpdatedAt = ctx.Timestamp;
-        updatedMatch.HasWinner = activeCount == 1;
-        updatedMatch.Winner = activeCount == 1 ? remainingIdentity : default;
-        ctx.Db.match.MatchId.Update(updatedMatch);
+        for (var i = 0; i < battles.Count; i++)
+        {
+            SetPlayerBattleView(ctx, battles[i].PlayerA, battles[i].PlayerB, battles[i], false);
+            SetPlayerBattleView(ctx, battles[i].PlayerB, battles[i].PlayerA, battles[i], false);
+        }
+
+        if (activeCount <= 1)
+        {
+            var completedMatch = match;
+            completedMatch.Status = SimConstants.MatchCompleted;
+            completedMatch.UpdatedAt = ctx.Timestamp;
+            completedMatch.HasWinner = activeCount == 1;
+            completedMatch.Winner = activeCount == 1 ? remainingIdentity : default;
+            ctx.Db.Match.MatchId.Update(completedMatch);
+            DeleteShopTimer(ctx, matchId);
+            return true;
+        }
+
+        _ = StartShopRoundInternal(ctx, match, round.RoundNumber + 1);
+
+        return true;
     }
 
     private static void ApplyRoundDamage(ReducerContext ctx, ulong matchId, Identity playerIdentity, int damage)
@@ -262,6 +448,37 @@ public static partial class Module
         var updated = player;
         updated.Health = Math.Max(0, player.Health - damage);
         updated.Eliminated = updated.Health <= 0;
-        ctx.Db.match_player.MatchPlayerId.Update(updated);
+        ctx.Db.MatchPlayer.MatchPlayerId.Update(updated);
+    }
+
+    private static void RemoveShopRowsForPlayer(ReducerContext ctx, ulong matchId, Identity playerIdentity)
+    {
+        var statesToDelete = new List<ulong>();
+        foreach (var state in ctx.Db.MatchPlayerShopState.Iter())
+        {
+            if (state.MatchId == matchId && state.PlayerIdentity == playerIdentity)
+            {
+                statesToDelete.Add(state.MatchPlayerShopStateId);
+            }
+        }
+
+        for (var i = 0; i < statesToDelete.Count; i++)
+        {
+            ctx.Db.MatchPlayerShopState.MatchPlayerShopStateId.Delete(statesToDelete[i]);
+        }
+
+        var offersToDelete = new List<ulong>();
+        foreach (var offer in ctx.Db.MatchPlayerShopOffer.Iter())
+        {
+            if (offer.MatchId == matchId && offer.PlayerIdentity == playerIdentity)
+            {
+                offersToDelete.Add(offer.MatchPlayerShopOfferId);
+            }
+        }
+
+        for (var i = 0; i < offersToDelete.Count; i++)
+        {
+            ctx.Db.MatchPlayerShopOffer.MatchPlayerShopOfferId.Delete(offersToDelete[i]);
+        }
     }
 }

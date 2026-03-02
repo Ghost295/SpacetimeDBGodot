@@ -69,10 +69,20 @@ public static class FlowFieldBakeHashUtility
         if (!TryDecode(data, out DecodedPayload payload, out error))
             return false;
 
-        byte[] metadataBytes = BuildMetadataBytes(payload);
-        byte[] hashBytes = ComputeSha256(metadataBytes, payload.CostBytes, payload.Team0FlowBytes, payload.Team1FlowBytes);
-        hashBase64 = Convert.ToBase64String(hashBytes);
+        hashBase64 = ComputeHashBase64(payload);
         return true;
+    }
+
+    public static string ComputeHashBase64(DecodedPayload payload, byte[] metadataExtensionBytes = null)
+    {
+        byte[] coreMetadataBytes = BuildCoreMetadataBytes(payload);
+        byte[] hashBytes = ComputeSha256(
+            coreMetadataBytes,
+            metadataExtensionBytes ?? Array.Empty<byte>(),
+            payload.CostBytes,
+            payload.Team0FlowBytes,
+            payload.Team1FlowBytes);
+        return Convert.ToBase64String(hashBytes);
     }
 
     public static bool TryComputeAndStoreHash(MapFlowFieldData data, out string error)
@@ -85,7 +95,7 @@ public static class FlowFieldBakeHashUtility
         return true;
     }
 
-    private static byte[] BuildMetadataBytes(DecodedPayload payload)
+    private static byte[] BuildCoreMetadataBytes(DecodedPayload payload)
     {
         using var ms = new MemoryStream();
         using var writer = new BinaryWriter(ms, Encoding.UTF8, leaveOpen: true);
@@ -108,12 +118,18 @@ public static class FlowFieldBakeHashUtility
         return ms.ToArray();
     }
 
-    private static byte[] ComputeSha256(byte[] metadataBytes, byte[] costBytes, byte[] team0Bytes, byte[] team1Bytes)
+    private static byte[] ComputeSha256(
+        byte[] coreMetadataBytes,
+        byte[] metadataExtensionBytes,
+        byte[] costBytes,
+        byte[] team0Bytes,
+        byte[] team1Bytes)
     {
         using var sha = SHA256.Create();
         using var ms = new MemoryStream(
-            metadataBytes.Length + costBytes.Length + team0Bytes.Length + team1Bytes.Length + 16);
-        ms.Write(metadataBytes);
+            coreMetadataBytes.Length + metadataExtensionBytes.Length + costBytes.Length + team0Bytes.Length + team1Bytes.Length + 16);
+        ms.Write(coreMetadataBytes);
+        ms.Write(metadataExtensionBytes);
         ms.Write(costBytes);
         ms.Write(team0Bytes);
         ms.Write(team1Bytes);
@@ -167,4 +183,5 @@ public static class FlowFieldBakeHashUtility
 
         return true;
     }
+
 }

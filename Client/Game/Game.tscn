@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://cyitverwxjtn" path="res://Game/Units/Spearman.res" id="2_iv3md"]
 [ext_resource type="Terrain3DMaterial" uid="uid://bjsp6h4jb67qg" path="res://Game/Terrain/test2lanetiny/terrain_material.tres" id="4_jxerj"]
 [ext_resource type="Terrain3DAssets" uid="uid://dal3jhw6241qg" path="res://demo/data/assets.tres" id="5_jxerj"]
+[ext_resource type="PackedScene" path="res://Game/Lobby/LobbyScreen.tscn" id="6_lobby"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrr3t"]
 
@@ -27,6 +28,8 @@ Model = ExtResource("2_iv3md")
 
 [node name="PopupMenu" parent="CanvasLayer" unique_id=832860443 instance=ExtResource("1_hqwdr")]
 visible = false
+
+[node name="LobbyScreen" parent="CanvasLayer" instance=ExtResource("6_lobby")]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1924850015]
 transform = Transform3D(1, 0, 0, 0, 0.7660445, 0.64278764, 0, -0.64278764, 0.7660445, 0, 34.962555, 60.59893)

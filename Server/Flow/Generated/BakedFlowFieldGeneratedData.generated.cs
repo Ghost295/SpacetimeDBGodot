@@ -20,6 +20,22 @@ internal static class BakedFlowFieldGeneratedData
     public const int Team1GoalCellX = 95;
     public const int Team1GoalCellY = 128;
 
+    public static readonly byte[] CardGridTeams = new byte[] { 0, 0, 0, 1 };
+    public static readonly string[] CardGridIds = new string[] { "team0_left", "team0_garrison", "team0_right", "team1_main" };
+    public static readonly int[] CardGridCenterX = new int[] { 277, 277, 277, 744 };
+    public static readonly int[] CardGridCenterZ = new int[] { 364, 509, 663, 368 };
+    public static readonly int[] CardGridCellsX = new int[] { 5, 5, 5, 5 };
+    public static readonly int[] CardGridCellsZ = new int[] { 3, 3, 3, 3 };
+    public static readonly int[] CardGridWorldSizeX = new int[] { 120, 120, 120, 120 };
+    public static readonly int[] CardGridWorldSizeZ = new int[] { 96, 96, 96, 96 };
+    public static readonly int[] BuildingCenterX = new int[] { 448, 576, 368, 655, 385, 640 };
+    public static readonly int[] BuildingCenterZ = new int[] { 352, 352, 416, 416, 514, 514 };
+    public static readonly int[] BuildingRadius = new int[] { 5, 5, 5, 5, 15, 15 };
+    public static readonly int[] BuildingBlockedMinX = Array.Empty<int>();
+    public static readonly int[] BuildingBlockedMinY = Array.Empty<int>();
+    public static readonly int[] BuildingBlockedMaxX = Array.Empty<int>();
+    public static readonly int[] BuildingBlockedMaxY = Array.Empty<int>();
+
     public static readonly byte[] CostBytes;
     public static readonly byte[] Team0FlowBytes;
     public static readonly byte[] Team1FlowBytes;

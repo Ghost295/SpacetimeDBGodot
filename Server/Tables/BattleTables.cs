@@ -1,6 +1,6 @@
 using SpacetimeDB;
 
-[SpacetimeDB.Table(Accessor = "battle", Public = true)]
+[SpacetimeDB.Table(Accessor = "Battle", Public = true)]
 [SpacetimeDB.Index.BTree(Accessor = "battle_by_match_id", Columns = new[] { nameof(MatchId) })]
 [SpacetimeDB.Index.BTree(Accessor = "battle_by_round_id", Columns = new[] { nameof(RoundId) })]
 public partial struct Battle
@@ -17,9 +17,11 @@ public partial struct Battle
     public byte Status;
     public uint TickRateTps;
     public uint SnapshotEveryNTicks;
+    public int SnapshotRetention;
     public int MaxTicks;
     public int CurrentTick;
     public int UnitCount;
+    public string StaticContentHash;
 
     public Fix64 WorldMinX;
     public Fix64 WorldMaxX;
@@ -36,7 +38,7 @@ public partial struct Battle
     public bool HasCompletedAt;
 }
 
-[SpacetimeDB.Table(Accessor = "battle_state")]
+[SpacetimeDB.Table(Accessor = "BattleState")]
 public partial struct BattleState
 {
     [SpacetimeDB.PrimaryKey]
@@ -44,7 +46,7 @@ public partial struct BattleState
     public BattleStateBlob State;
 }
 
-[SpacetimeDB.Table(Accessor = "battle_tick_timer", Scheduled = nameof(Module.TickBattle))]
+[SpacetimeDB.Table(Accessor = "BattleTickTimer", Scheduled = nameof(Module.TickBattle))]
 public partial struct BattleTickTimer
 {
     [SpacetimeDB.PrimaryKey]
@@ -52,7 +54,7 @@ public partial struct BattleTickTimer
     public ScheduleAt ScheduledAt;
 }
 
-[SpacetimeDB.Table(Accessor = "battle_snapshot", Public = true)]
+[SpacetimeDB.Table(Accessor = "BattleSnapshot", Public = true)]
 [SpacetimeDB.Index.BTree(Accessor = "battle_snapshot_by_battle_id", Columns = new[] { nameof(BattleId) })]
 public partial struct BattleSnapshot
 {

@@ -23,6 +23,20 @@ internal static class BattleDigest
             hash *= fnvPrime;
             hash ^= (ulong)state.ArchetypeIds[i];
             hash *= fnvPrime;
+            hash ^= (ulong)(uint)state.AttackCooldownTicks[i];
+            hash *= fnvPrime;
+            hash ^= (ulong)(uint)state.StatusPermanentMask[i];
+            hash *= fnvPrime;
+            hash ^= (ulong)(uint)state.StatusBleedTicks[i];
+            hash *= fnvPrime;
+            hash ^= (ulong)(uint)state.StatusBurnTicks[i];
+            hash *= fnvPrime;
+            hash ^= (ulong)(uint)state.StatusSlowTicks[i];
+            hash *= fnvPrime;
+            hash ^= (ulong)(uint)state.StatusStunTicks[i];
+            hash *= fnvPrime;
+            hash ^= (ulong)(uint)state.StatusArmorBreakTicks[i];
+            hash *= fnvPrime;
         }
 
         hash ^= (ulong)state.Tick;

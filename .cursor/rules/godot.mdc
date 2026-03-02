@@ -10,3 +10,4 @@ alwaysApply: true
 - Don't be afraid to remove code to simplify flow while keeping determism and multiplayer readiness
 - Never create fallback code
 - This project uses SpacetimeDB 2.0
+- never use git commands

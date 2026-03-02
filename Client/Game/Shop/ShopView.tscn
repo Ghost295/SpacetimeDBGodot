@@ -1,0 +1,165 @@
+[gd_scene format=3 uid="uid://8q6v4areh14h"]
+
+[ext_resource type="Texture2D" uid="uid://b7vm731l0c8dg" path="res://Assets/cardtest.png" id="3_5ldkv"]
+
+[node name="ShopView" type="Control" unique_id=1831566433]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="TopBar" type="PanelContainer" parent="." unique_id=514225504]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 64.0
+grow_horizontal = 2
+mouse_filter = 1
+
+[node name="TopMargin" type="MarginContainer" parent="TopBar" unique_id=2117972374]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="TopRow" type="HBoxContainer" parent="TopBar/TopMargin" unique_id=1710773344]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="RoundLabel" type="Label" parent="TopBar/TopMargin/TopRow" unique_id=662140914]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Round: 1"
+
+[node name="GoldLabel" type="Label" parent="TopBar/TopMargin/TopRow" unique_id=1859547472]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Gold: 10"
+
+[node name="TimerLabel" type="Label" parent="TopBar/TopMargin/TopRow" unique_id=1555360459]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Timer: 25s"
+
+[node name="TopSpacer" type="Control" parent="TopBar/TopMargin/TopRow" unique_id=1431334225]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StartBattleButton" type="Button" parent="TopBar/TopMargin/TopRow" unique_id=271898467]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start Battle"
+
+[node name="ShopPanel" type="PanelContainer" parent="." unique_id=1775891429]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -556.0
+offset_top = -405.0
+offset_right = 556.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 1
+
+[node name="ShopMargin" type="MarginContainer" parent="ShopPanel" unique_id=2048317520]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="ShopContent" type="VBoxContainer" parent="ShopPanel/ShopMargin" unique_id=233296531]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CollapseShop" type="Button" parent="ShopPanel/ShopMargin/ShopContent" unique_id=749887504]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "Collapse"
+
+[node name="ShopHeader" type="HBoxContainer" parent="ShopPanel/ShopMargin/ShopContent" unique_id=1345354853]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 16
+
+[node name="ShopLevelLabel" type="Label" parent="ShopPanel/ShopMargin/ShopContent/ShopHeader" unique_id=2071647249]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Shop Level: 1"
+
+[node name="UpgradeButton" type="Button" parent="ShopPanel/ShopMargin/ShopContent/ShopHeader" unique_id=1625625170]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Upgrade"
+
+[node name="OfferList" type="HBoxContainer" parent="ShopPanel/ShopMargin/ShopContent" unique_id=274064440]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="OfferTemplate" type="PanelContainer" parent="ShopPanel/ShopMargin/ShopContent/OfferList" unique_id=1074767968]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OfferMargin" type="MarginContainer" parent="ShopPanel/ShopMargin/ShopContent/OfferList/OfferTemplate" unique_id=2069705295]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="OfferInfo" type="VBoxContainer" parent="ShopPanel/ShopMargin/ShopContent/OfferList/OfferTemplate/OfferMargin" unique_id=1762253227]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TextureRect" type="TextureRect" parent="ShopPanel/ShopMargin/ShopContent/OfferList/OfferTemplate/OfferMargin/OfferInfo" unique_id=723839655]
+layout_mode = 2
+texture = ExtResource("3_5ldkv")
+expand_mode = 4
+
+[node name="OfferName" type="Label" parent="ShopPanel/ShopMargin/ShopContent/OfferList/OfferTemplate/OfferMargin/OfferInfo" unique_id=1645338080]
+layout_mode = 2
+text = "Card"
+
+[node name="OfferPrice" type="Label" parent="ShopPanel/ShopMargin/ShopContent/OfferList/OfferTemplate/OfferMargin/OfferInfo" unique_id=1297081351]
+layout_mode = 2
+text = "Price: 3"
+
+[node name="OfferSize" type="Label" parent="ShopPanel/ShopMargin/ShopContent/OfferList/OfferTemplate/OfferMargin/OfferInfo" unique_id=673363799]
+layout_mode = 2
+text = "Size: 1x1"
+
+[node name="BuyButton" type="Button" parent="ShopPanel/ShopMargin/ShopContent/OfferList/OfferTemplate/OfferMargin/OfferInfo" unique_id=244188362]
+layout_mode = 2
+text = "Buy"
+
+[node name="ShopButtons" type="HBoxContainer" parent="ShopPanel/ShopMargin/ShopContent" unique_id=9658555]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+
+[node name="FreezeButton" type="Button" parent="ShopPanel/ShopMargin/ShopContent/ShopButtons" unique_id=1550423367]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "Freeze"
+
+[node name="RerollButton" type="Button" parent="ShopPanel/ShopMargin/ShopContent/ShopButtons" unique_id=1202461052]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reroll (-1g)"

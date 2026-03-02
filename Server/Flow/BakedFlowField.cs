@@ -1,5 +1,58 @@
 using System;
 
+internal readonly struct BakedCardPlacementGrid
+{
+    public BakedCardPlacementGrid(
+        int gridIndex,
+        byte team,
+        string gridId,
+        Fix64 centerX,
+        Fix64 centerZ,
+        int cellsX,
+        int cellsZ,
+        Fix64 worldSizeX,
+        Fix64 worldSizeZ)
+    {
+        GridIndex = gridIndex;
+        Team = team;
+        GridId = gridId ?? string.Empty;
+        CenterX = centerX;
+        CenterZ = centerZ;
+        CellsX = Math.Max(1, cellsX);
+        CellsZ = Math.Max(1, cellsZ);
+        WorldSizeX = worldSizeX;
+        WorldSizeZ = worldSizeZ;
+    }
+
+    public int GridIndex { get; }
+    public byte Team { get; }
+    public string GridId { get; }
+    public Fix64 CenterX { get; }
+    public Fix64 CenterZ { get; }
+    public int CellsX { get; }
+    public int CellsZ { get; }
+    public Fix64 WorldSizeX { get; }
+    public Fix64 WorldSizeZ { get; }
+    public Fix64 OriginX => CenterX - (WorldSizeX / Fix64.FromInt(2));
+    public Fix64 OriginZ => CenterZ - (WorldSizeZ / Fix64.FromInt(2));
+    public Fix64 CellSizeX => CellsX <= 0 ? Fix64.Zero : WorldSizeX / Fix64.FromInt(CellsX);
+    public Fix64 CellSizeZ => CellsZ <= 0 ? Fix64.Zero : WorldSizeZ / Fix64.FromInt(CellsZ);
+}
+
+internal readonly struct BakedBuildingObstacle
+{
+    public BakedBuildingObstacle(Fix64 x, Fix64 z, Fix64 radius)
+    {
+        X = x;
+        Z = z;
+        Radius = radius;
+    }
+
+    public Fix64 X { get; }
+    public Fix64 Z { get; }
+    public Fix64 Radius { get; }
+}
+
 internal static class BakedFlowField
 {
     private const byte PathableFlagMask = 1 << 0;
@@ -11,7 +64,10 @@ internal static class BakedFlowField
     private static readonly byte[] Team1FlowBytes = BakedFlowFieldGeneratedData.Team1FlowBytes ?? Array.Empty<byte>();
     private static readonly int Team0PathableCells = CountPathableCells(Team0FlowBytes);
     private static readonly int Team1PathableCells = CountPathableCells(Team1FlowBytes);
+    private static readonly BakedCardPlacementGrid[] CardPlacementGrids = BuildCardPlacementGrids();
+    private static readonly BakedBuildingObstacle[] BuildingObstacles = BuildBuildingObstacles();
 
+    public static string BakeHashBase64 => BakedFlowFieldGeneratedData.BakeHashBase64;
     public static int CellSize => BakedFlowFieldGeneratedData.CellSize;
     public static int Width => BakedFlowFieldGeneratedData.Width;
     public static int Height => BakedFlowFieldGeneratedData.Height;
@@ -19,6 +75,7 @@ internal static class BakedFlowField
     public static int FieldSizeY => BakedFlowFieldGeneratedData.FieldSizeY;
     public static int WorldOriginX => BakedFlowFieldGeneratedData.WorldOriginX;
     public static int WorldOriginZ => BakedFlowFieldGeneratedData.WorldOriginZ;
+    public static int CardPlacementGridCount => CardPlacementGrids.Length;
 
     public static bool IsConfigured
     {
@@ -86,6 +143,131 @@ internal static class BakedFlowField
 
         direction = decodedDirection;
         return true;
+    }
+
+    public static bool TryGetCardPlacementGrid(int gridIndex, out BakedCardPlacementGrid grid)
+    {
+        if ((uint)gridIndex < (uint)CardPlacementGrids.Length)
+        {
+            grid = CardPlacementGrids[gridIndex];
+            return true;
+        }
+
+        grid = default;
+        return false;
+    }
+
+    public static BakedBuildingObstacle[] GetBuildingObstacles()
+    {
+        return BuildingObstacles;
+    }
+
+    public static bool TryResolveCardWorldCenter(
+        int gridIndex,
+        int cellX,
+        int cellZ,
+        int cardSizeX,
+        int cardSizeY,
+        out FixVec2 center)
+    {
+        center = FixVec2.Zero;
+        if (!TryGetCardPlacementGrid(gridIndex, out var grid))
+        {
+            return false;
+        }
+
+        var safeSizeX = Math.Max(1, cardSizeX);
+        var safeSizeY = Math.Max(1, cardSizeY);
+        if (cellX < 0 ||
+            cellZ < 0 ||
+            safeSizeX > grid.CellsX ||
+            safeSizeY > grid.CellsZ ||
+            cellX + safeSizeX > grid.CellsX ||
+            cellZ + safeSizeY > grid.CellsZ)
+        {
+            return false;
+        }
+
+        var cellSizeX = grid.CellSizeX;
+        var cellSizeZ = grid.CellSizeZ;
+        if (cellSizeX <= Fix64.Zero || cellSizeZ <= Fix64.Zero)
+        {
+            return false;
+        }
+
+        var centerTwiceX = (2 * cellX) + safeSizeX;
+        var centerTwiceZ = (2 * cellZ) + safeSizeY;
+        var centerCellX = Fix64.FromInt(centerTwiceX) / Fix64.FromInt(2);
+        var centerCellZ = Fix64.FromInt(centerTwiceZ) / Fix64.FromInt(2);
+        var worldX = grid.OriginX + (centerCellX * cellSizeX);
+        var worldZ = grid.OriginZ + (centerCellZ * cellSizeZ);
+        center = new FixVec2(worldX, worldZ);
+        return true;
+    }
+
+    private static BakedCardPlacementGrid[] BuildCardPlacementGrids()
+    {
+        var teams = BakedFlowFieldGeneratedData.CardGridTeams ?? Array.Empty<byte>();
+        var ids = BakedFlowFieldGeneratedData.CardGridIds ?? Array.Empty<string>();
+        var centerX = BakedFlowFieldGeneratedData.CardGridCenterX ?? Array.Empty<int>();
+        var centerZ = BakedFlowFieldGeneratedData.CardGridCenterZ ?? Array.Empty<int>();
+        var cellsX = BakedFlowFieldGeneratedData.CardGridCellsX ?? Array.Empty<int>();
+        var cellsZ = BakedFlowFieldGeneratedData.CardGridCellsZ ?? Array.Empty<int>();
+        var worldSizeX = BakedFlowFieldGeneratedData.CardGridWorldSizeX ?? Array.Empty<int>();
+        var worldSizeZ = BakedFlowFieldGeneratedData.CardGridWorldSizeZ ?? Array.Empty<int>();
+        var count = Math.Min(
+            teams.Length,
+            Math.Min(
+                ids.Length,
+                Math.Min(
+                    centerX.Length,
+                    Math.Min(
+                        centerZ.Length,
+                        Math.Min(cellsX.Length, Math.Min(cellsZ.Length, Math.Min(worldSizeX.Length, worldSizeZ.Length)))))));
+        if (count <= 0)
+        {
+            return Array.Empty<BakedCardPlacementGrid>();
+        }
+
+        var result = new BakedCardPlacementGrid[count];
+        for (var i = 0; i < count; i++)
+        {
+            result[i] = new BakedCardPlacementGrid(
+                i,
+                teams[i],
+                ids[i] ?? string.Empty,
+                Fix64.FromInt(centerX[i]),
+                Fix64.FromInt(centerZ[i]),
+                cellsX[i],
+                cellsZ[i],
+                Fix64.FromInt(worldSizeX[i]),
+                Fix64.FromInt(worldSizeZ[i]));
+        }
+
+        return result;
+    }
+
+    private static BakedBuildingObstacle[] BuildBuildingObstacles()
+    {
+        var centerX = BakedFlowFieldGeneratedData.BuildingCenterX ?? Array.Empty<int>();
+        var centerZ = BakedFlowFieldGeneratedData.BuildingCenterZ ?? Array.Empty<int>();
+        var radius = BakedFlowFieldGeneratedData.BuildingRadius ?? Array.Empty<int>();
+        var count = Math.Min(centerX.Length, Math.Min(centerZ.Length, radius.Length));
+        if (count <= 0)
+        {
+            return Array.Empty<BakedBuildingObstacle>();
+        }
+
+        var result = new BakedBuildingObstacle[count];
+        for (var i = 0; i < count; i++)
+        {
+            result[i] = new BakedBuildingObstacle(
+                Fix64.FromInt(centerX[i]),
+                Fix64.FromInt(centerZ[i]),
+                Fix64.FromInt(Math.Max(0, radius[i])));
+        }
+
+        return result;
     }
 
     private static bool TryWorldToCell(float worldX, float worldZ, out int cellX, out int cellY)
