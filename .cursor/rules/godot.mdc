@@ -9,4 +9,4 @@ alwaysApply: true
 - Use functions in the GD namespace when applicable
 - Don't be afraid to remove code to simplify flow while keeping determism and multiplayer readiness
 - Never create fallback code
-- This project uses SpacetimeDB
+- This project uses SpacetimeDB 2.0
